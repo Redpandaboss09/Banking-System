@@ -1,0 +1,129 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <stdlib.h>
+#include <windows.h>
+
+using namespace std;
+
+//Initialize Functions
+bool isLoggedin();
+
+int main() {
+	//Needed Variables
+	string username, password, fName, lName;
+	int choice;
+
+	cout << "Welcome to Imperial One Banking! You will soon be given a menu of choices, please enter 1 to continue:" << endl;
+	cin >> choice;
+
+	if (choice == 1) {
+		//Clear Screen For Menu
+		cout.flush();
+		system("CLS");
+
+		//Menu
+		cout << "1.Register" << endl;
+		cout << "2.Login" << endl;
+		cout << "3.Help" << endl;
+		cin >> choice;
+
+		if (choice == 1) {
+			//Create An Account
+			cout << "Enter a username: " << endl;
+			cin >> username;
+			cout << "Give a password: " << endl;
+			cin >> password;
+			cout << "Enter your first name: " << endl;
+			cin >> fName;
+			cout << "Enter your last name: " << endl;
+			cin >> lName;
+
+			//Create A File For The Account
+			ofstream file;
+			file.open("data\\" + username + ".txt");
+
+			//Write Information Into File
+			file << username << endl;
+			file << password << endl;
+			file << fName << endl;
+			file << lName << endl;
+
+			//Close File
+			file.close();
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Go Back To Main
+			main();
+		}
+		else if (choice == 2) {
+			bool status = isLoggedin();
+
+			if (!status) {
+				cout << "Login Failed, App Will Close" << endl;
+
+				//Console Sleep
+				Sleep(5000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+			} else {
+				cout << "Login Successful, Please Wait..." << endl;
+
+				//Console Sleep
+				Sleep(4000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+			}
+		}
+		else if (choice == 3) {
+
+		}
+		else if (choice == 4) {
+
+		}
+		else {
+
+		}
+	}
+	else {
+		//Clear Screen To End Program
+		cout.flush();
+		system("CLS");
+	}
+
+	return 0;
+}
+
+bool isLoggedin() {
+	string username, password, un, pw;
+
+	cout << "Enter your username: " << endl;
+	cin >> username;
+
+	cout << "Enter your password: " << endl;
+	cin >> password;
+
+	ifstream read(username + ".txt");
+	getline(read, un);
+	getline(read, pw);
+
+	if (un == username && pw == password) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void sleep(unsigned milliseconds)
+{
+	Sleep(milliseconds);
+}
