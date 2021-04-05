@@ -1,0 +1,287 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <stdlib.h>
+#include <windows.h>
+
+using namespace std;
+
+//Initialize Functions
+bool isLoggedin();
+string randPhone();
+string randAccount();
+
+int main() {
+	//Random Number
+	srand(time(NULL));
+
+	//Needed Variables For Files
+	string username, password, fName, lName;
+	int accNum, phoneNum;
+
+	//Choice Variable
+	int choice;
+
+	cout << "Welcome to Imperial One Banking! You will soon be given a menu of choices, please enter 1 to continue:" << endl;
+	cin >> choice;
+
+	if (choice == 1) {
+		//Clear Screen For Menu
+		cout.flush();
+		system("CLS");
+
+		//Menu
+		cout << "1.Register" << endl;
+		cout << "2.Login" << endl;
+		cout << "3.Help" << endl;
+		cin >> choice;
+
+		if (choice == 1) {
+			cout << "Please Wait..." << endl;
+
+			//Sleep Screen
+			Sleep(1500);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Account & Phone Number Creation
+			string accNum = randAccount();
+			string phoneNum = randPhone();
+
+			//Create An Account
+			cout << "Enter a username: " << endl;
+			cin >> username;
+			cout << "Give a password: " << endl;
+			cin >> password;
+			cout << "Enter your first name: " << endl;
+			cin >> fName;
+			cout << "Enter your last name: " << endl;
+			cin >> lName;
+
+			//Create A File For The Account
+			ofstream file;
+			file.open(username + ".txt");
+
+			//Write Information Into File
+			file << username << endl;
+			file << password << endl;
+			file << fName << endl;
+			file << lName << endl;
+			file << accNum << endl;
+			file << phoneNum << endl;
+
+			//Close File
+			file.close();
+
+			cout << "Program Will Now Restart..." << endl;
+
+			//Sleep Screen
+			Sleep(2000);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Go Back To Main
+			main();
+		}
+		else if (choice == 2) {
+			bool status = isLoggedin();
+
+			if (!status) {
+				cout << "Login Failed, Program Will Restart" << endl;
+
+				//Console Sleep
+				Sleep(5000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				//Bring To Beginning
+				main();
+			} else {
+				cout << "Login Successful, Please Wait..." << endl;
+
+				//Console Sleep
+				Sleep(4000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				//Start Account Menu
+				cout << "Welcome, " << fName << "!" << endl;
+				cout << "" << endl;
+				cout << "Please Enter Your Choice: " << endl;
+				cout << "1.Deposit" << endl;
+				cout << "2.Withdraw" << endl;
+				cout << "3.Request Loan" << endl;
+				cout << "4.Account Info" << endl;
+				cin >> choice;
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				if (choice == 1) {
+					cout << "Please Wait..." << endl;
+
+					//Sleep Screen
+					Sleep(2000);
+
+					//Clear Screen
+					cout.flush();
+					system("CLS");
+
+
+				} else if (choice == 2) {
+
+				} else if (choice == 3) {
+
+				} else if (choice == 4) {
+
+				} else {
+					cout << "Wrong Command, Try Again: " << endl;
+					cin >> choice;
+
+					if (choice == 1) {
+
+					}
+					else if (choice == 2) {
+
+					}
+					else if (choice == 3) {
+
+					}
+					else if (choice == 4) {
+
+					}
+					else {
+						cout << "Wrong Command, Restarting Program..." << endl;
+
+						//Sleep Screen
+						Sleep(3000);
+
+						//Clear Screen
+						cout.flush();
+						system("CLS");
+
+						//Bring Back To Beginning
+						main();
+					}
+				}
+			}
+		}
+		else if (choice == 3) {
+
+		}
+		else if (choice == 4) {
+
+		}
+		else {
+			cout << "Incorrect Command, Restarting..." << endl;
+
+			//Sleep Screen
+			Sleep(3000);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Bring Back To Beginning
+			main();
+		}
+	}
+	else {
+		//Clear Screen To End Program
+		cout.flush();
+		system("CLS");
+	}
+
+	return 0;
+}
+
+bool isLoggedin() {
+	string username, password, un, pw;
+
+	cout << "Enter your username: " << endl;
+	cin >> username;
+
+	cout << "Enter your password: " << endl;
+	cin >> password;
+
+	ifstream read(username + ".txt");
+	getline(read, un);
+	getline(read, pw);
+
+	if (un == username && pw == password) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+string randPhone() {
+	//Allows Random Number
+	srand(time(NULL));
+
+	//Final Returned Variable
+	string phoneN;
+
+	//Needed Variables
+	int holdNum[10];
+	int a;
+	
+	//Fill In Array With Random Numbers
+	for (int i = 0; i < 10; i++) {
+		//Generate Random Number
+		a = rand() % 10;
+		
+		//Put Number Into Array
+		holdNum[i] = a;
+	}
+
+	//Create Value For Returned Variable
+	for (int i : holdNum) {
+		phoneN = to_string(i);
+	}
+
+	return phoneN;
+}
+
+string randAccount() {
+	//Allows Random Number
+	srand(time(NULL));
+
+	//Final Returned Variable
+	string accountN;
+
+	//Needed Variables
+	int holdNum[10];
+	int a;
+
+	//Fill In Array With Random Numbers
+	for (int i = 0; i < 10; i++) {
+		//Generate Random Number
+		a = rand() % 10;
+
+		//Put Number Into Array
+		holdNum[i] = a;
+	}
+
+	//Create Value For Returned Variable
+	for (int i : holdNum) {
+		accountN = to_string(i);
+	}
+
+	return accountN;
+}
+
+void sleep(unsigned milliseconds)
+{
+	Sleep(milliseconds);
+}
