@@ -1,0 +1,344 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <limits>
+#include <stdlib.h>
+#include <windows.h>
+
+
+using namespace std;
+
+//Initialize Functions
+bool isLoggedin();
+string randPhone();
+string randAccount();
+int deposit(string username);
+int withdraw(string username);
+
+int main() {
+	//Random Number
+	srand(time(NULL));
+
+	//Needed Variables For Files
+	string username, password, fName, lName;
+	string balStr = "100";
+	int accNum, phoneNum;
+
+	//Choice Variable
+	int choice;
+
+	do {
+		cout << "Welcome to Imperial One Banking! Please Wait For the Program..." << endl;
+
+		//Sleep Screen
+		Sleep(4500);
+
+		//Clear Screen For Menu
+		cout.flush();
+		system("CLS");
+
+		//Menu
+		cout << "1.Register" << endl;
+		cout << "2.Login" << endl;
+		cout << "3.Help" << endl;
+		cout << "4.Admin" << endl;
+		cin >> choice;
+
+		if (choice == 1) {
+			cout << "" << endl;
+			cout << "Please Wait..." << endl;
+
+			//Sleep Screen
+			Sleep(1500);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Account & Phone Number Creation
+			string accNum = randAccount();
+			string phoneNum = randPhone();
+
+			//Create An Account
+			cout << "Enter a username: " << endl;
+			cin >> username;
+			cout << "Give a password: " << endl;
+			cin >> password;
+			cout << "Enter your first name: " << endl;
+			cin >> fName;
+			cout << "Enter your last name: " << endl;
+			cin >> lName;
+			cout << "" << endl;
+			cout << "A Complimentary $100 Has Been Added To Your Account" << endl;
+
+			//Create A File For The Account
+			ofstream file;
+			file.open(username + ".txt");
+
+			//Write Information Into File
+			file << "Username: " << username << endl;
+			file << "Password: " << password << endl;
+			file << "First: " << fName << endl;
+			file << "Last: " << lName << endl;
+			file << "Account: " << accNum << endl;
+			file << "Phone: " << phoneNum << endl;
+			file << "Balance: " << balStr << endl;
+
+			//Close File
+			file.close();
+
+			cout << "Program Will Now Restart..." << endl;
+
+			//Sleep Screen
+			Sleep(2000);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+		}
+		else if (choice == 2) {
+			bool status = isLoggedin();
+
+			if (!status) {
+				cout << "Login Failed, Program Will Restart" << endl;
+
+				//Console Sleep
+				Sleep(5000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				//Bring To Beginning
+				main();
+			}
+			else {
+				cout << "Login Successful, Please Wait..." << endl;
+
+				//Console Sleep
+				Sleep(4000);
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				//Start Account Menu
+				cout << "Welcome, " << fName << "!" << endl;
+				cout << "" << endl;
+				cout << "Please Enter Your Choice: " << endl;
+				cout << "1.Deposit" << endl;
+				cout << "2.Withdraw" << endl;
+				cout << "3.Request Loan" << endl;
+				cout << "4.Account Info" << endl;
+				cin >> choice;
+
+				//Clear Screen
+				cout.flush();
+				system("CLS");
+
+				if (choice == 1) { //Deposit
+					cout << "Please Wait..." << endl;
+
+					//Sleep Screen
+					Sleep(2000);
+
+					//Clear Screen
+					cout.flush();
+					system("CLS");
+
+
+				}
+				else if (choice == 2) { //Withdraw
+
+				}
+				else if (choice == 3) { //Loan
+
+				}
+				else if (choice == 4) { //Account Info
+					cout << "Please Wait..." << endl;
+
+					//Sleep Screen
+					Sleep(1500);
+
+					//Clear Screen
+					cout.flush();
+					system("CLS");
+
+					cout << "Getting Info..." << endl;
+
+					//Sleep Screen
+					Sleep(1500);
+
+					//Clear Screen
+					cout.flush();
+					system("CLS");
+
+					//Create Hidden Password Variable
+					string hidePass;
+
+					//Check Length Of Password
+					for (int i = password.length(); i > 0; i--) {
+						hidePass += "*"; //Create Hidden Password
+					}
+
+					cout << "Account Number: " << accNum << endl;
+					cout << "Phone Number: " << phoneNum << endl;
+					cout << "Username: " << username << endl;
+					cout << "Password: " << hidePass << endl;
+					cout << "First Name: " << fName << endl;
+					cout << "Last Name: " << lName << endl;
+				}
+				else {
+					cout << "Wrong Command, Try Again: " << endl;
+					cin >> choice;
+
+					if (choice == 1) {
+
+					}
+					else if (choice == 2) {
+
+					}
+					else if (choice == 3) {
+
+					}
+					else if (choice == 4) {
+
+					}
+					else {
+						cout << "Wrong Command, Restarting Program..." << endl;
+
+						//Sleep Screen
+						Sleep(3000);
+
+						//Clear Screen
+						cout.flush();
+						system("CLS");
+
+						//Bring Back To Beginning
+						main();
+					}
+				}
+			}
+		}
+		else if (choice == 3) {
+
+		}
+		else if (choice == 4) {
+
+		}
+		else {
+			cout << "Incorrect Command, Restarting..." << endl;
+
+			//Sleep Screen
+			Sleep(3000);
+
+			//Clear Screen
+			cout.flush();
+			system("CLS");
+
+			//Bring Back To Beginning
+			main();
+		}
+	} while (choice < 5);
+
+	return 0;
+}
+
+bool isLoggedin() {
+	string username, password, un, pw;
+
+	cout << "Enter your username: " << endl;
+	cin >> username;
+
+	cout << "Enter your password: " << endl;
+	cin >> password;
+
+	ifstream read(username + ".txt");
+	getline(read, un);
+	getline(read, pw);
+
+	if (un == username && pw == password) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+string randPhone() {
+	//Allows Random Number
+	srand(time(NULL));
+
+	//Final Returned Variable
+	string phoneN;
+
+	//Needed Variables
+	int holdpNum[10];
+	int a;
+
+	//Fill In Array With Random Numbers
+	for (int i = 0; i < 10; i++) {
+		//Generate Random Number
+		a = rand() % 10;
+
+		//Put Number Into Array
+		holdpNum[i] = a;
+	}
+
+	//Create Value For Returned Variable
+	for (int i : holdpNum) {
+		phoneN += to_string(i);
+	}
+
+	return phoneN;
+}
+
+string randAccount() {
+	//Allows Random Number
+	srand(time(NULL));
+
+	//Final Returned Variable
+	string accountN;
+
+	//Needed Variables
+	int holdaNum[10];
+	int a;
+
+	//Fill In Array With Random Numbers
+	for (int i = 0; i < 10; i++) {
+		//Generate Random Number
+		a = rand() % 10;
+
+		//Put Number Into Array
+		holdaNum[i] = a;
+	}
+
+	//Create Value For Returned Variable
+	for (int i : holdaNum) {
+		accountN += to_string(i);
+	}
+
+	return accountN;
+}
+
+int deposit(string username) {
+	int temp;
+
+	ifstream read(username + ".txt");
+
+	cout << "How much would you like to deposit?" << endl;
+
+	return temp;
+}
+
+int withdraw(string username) {
+	int temp;
+
+	return temp;
+}
+
+void sleep(unsigned milliseconds)
+{
+	Sleep(milliseconds);
+}
